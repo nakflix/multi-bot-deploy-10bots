@@ -1,0 +1,76 @@
+#!/usr/bin/env bash
+#
+# Quick setup helper: edit the BOT_DATA array below with each bot's
+# token / port / mongo url / mongo db name, then run:
+#
+#   bash generate_env.sh
+#
+# This regenerates env/bot1.env ... env/bot10.env (shared settings stay
+# the same for every bot; only the 4 fields below differ).
+
+set -e
+
+# Shared settings (same for all 10 bots) — edit if needed
+APP_ID=14298205
+API_HASH=28df6d84da76d8606bf5f0e71ecfb62c
+CHANNEL_ID=-1001755253960
+OWNER_ID=1458235021
+FORCE_SUB_CHANNEL_1=-1001899642588
+FORCE_SUB_CHANNEL_2=-1001849467785
+FORCE_SUB_CHANNEL_3=-1001855603689
+FORCE_SUB_CHANNEL_4=-1001895335215
+TG_BOT_WORKERS=4
+START_MESSAGE='<b>Hello {first}\nI store private files for @NAKFLIXTV.</b>'
+ADMINS=1458235021
+FORCE_SUB_MESSAGE='<b>Hello👋 {first}</b>\n<b>Kindly JOIN CHANNEL 1, 2, 3 and 4 Then press ♻️ Try Again ♻️ to continue. 👇</b>'
+CUSTOM_CAPTION='➥ 𝗩𝗜𝗦𝗜𝗧 & 𝗝𝗢𝗜𝗡 👉 @NAKFLIXTV'
+PROTECT_CONTENT=False
+DISABLE_CHANNEL_BUTTON=False
+
+# Per-bot settings: token, port, mongo url, mongo db name
+# Format: "TOKEN|PORT|MONGO_URL|DB_NAME"
+BOT_DATA=(
+  "BOT1_TOKEN|8081|BOT1_MONGO_URL|BOT1_DB_NAME"
+  "BOT2_TOKEN|8082|BOT2_MONGO_URL|BOT2_DB_NAME"
+  "BOT3_TOKEN|8083|BOT3_MONGO_URL|BOT3_DB_NAME"
+  "BOT4_TOKEN|8084|BOT4_MONGO_URL|BOT4_DB_NAME"
+  "BOT5_TOKEN|8085|BOT5_MONGO_URL|BOT5_DB_NAME"
+  "BOT6_TOKEN|8086|BOT6_MONGO_URL|BOT6_DB_NAME"
+  "BOT7_TOKEN|8087|BOT7_MONGO_URL|BOT7_DB_NAME"
+  "BOT8_TOKEN|8088|BOT8_MONGO_URL|BOT8_DB_NAME"
+  "BOT9_TOKEN|8089|BOT9_MONGO_URL|BOT9_DB_NAME"
+  "BOT10_TOKEN|8090|BOT10_MONGO_URL|BOT10_DB_NAME"
+)
+
+mkdir -p env
+
+i=1
+for entry in "${BOT_DATA[@]}"; do
+  IFS='|' read -r TOKEN PORT MONGO_URL DB_NAME <<< "$entry"
+  cat > "env/bot${i}.env" << EOF
+TG_BOT_TOKEN=${TOKEN}
+PORT=${PORT}
+DATABASE_URL=${MONGO_URL}
+DATABASE_NAME=${DB_NAME}
+
+APP_ID=${APP_ID}
+API_HASH=${API_HASH}
+CHANNEL_ID=${CHANNEL_ID}
+OWNER_ID=${OWNER_ID}
+FORCE_SUB_CHANNEL_1=${FORCE_SUB_CHANNEL_1}
+FORCE_SUB_CHANNEL_2=${FORCE_SUB_CHANNEL_2}
+FORCE_SUB_CHANNEL_3=${FORCE_SUB_CHANNEL_3}
+FORCE_SUB_CHANNEL_4=${FORCE_SUB_CHANNEL_4}
+TG_BOT_WORKERS=${TG_BOT_WORKERS}
+START_MESSAGE=${START_MSG:-$START_MESSAGE}
+ADMINS=${ADMINS}
+FORCE_SUB_MESSAGE=${FORCE_SUB_MESSAGE}
+CUSTOM_CAPTION=${CUSTOM_CAPTION}
+PROTECT_CONTENT=${PROTECT_CONTENT}
+DISABLE_CHANNEL_BUTTON=${DISABLE_CHANNEL_BUTTON}
+EOF
+  echo "Wrote env/bot${i}.env"
+  i=$((i+1))
+done
+
+echo "Done. Now run: docker compose up -d --build"

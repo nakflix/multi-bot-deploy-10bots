@@ -1,0 +1,93 @@
+version: "3.8"
+
+# Deploys 10 copies of the same bot, each with its own token, port,
+# and MongoDB connection. All other settings come from the env files
+# in ./env/ and are identical for every bot.
+#
+# Usage:
+#   1. Fill in env/bot1.env ... env/bot10.env with each bot's
+#      TG_BOT_TOKEN, PORT, DATABASE_URL and DATABASE_NAME.
+#   2. docker compose up -d --build
+#   3. docker compose logs -f bot1   (or any bot name)
+#   4. docker compose down           (to stop all)
+
+services:
+  bot1:
+    build: .
+    container_name: filesharebot-1
+    env_file: ./env/bot1.env
+    ports:
+      - "8081:8081"
+    restart: unless-stopped
+
+  bot2:
+    build: .
+    container_name: filesharebot-2
+    env_file: ./env/bot2.env
+    ports:
+      - "8082:8082"
+    restart: unless-stopped
+
+  bot3:
+    build: .
+    container_name: filesharebot-3
+    env_file: ./env/bot3.env
+    ports:
+      - "8083:8083"
+    restart: unless-stopped
+
+  bot4:
+    build: .
+    container_name: filesharebot-4
+    env_file: ./env/bot4.env
+    ports:
+      - "8084:8084"
+    restart: unless-stopped
+
+  bot5:
+    build: .
+    container_name: filesharebot-5
+    env_file: ./env/bot5.env
+    ports:
+      - "8085:8085"
+    restart: unless-stopped
+
+  bot6:
+    build: .
+    container_name: filesharebot-6
+    env_file: ./env/bot6.env
+    ports:
+      - "8086:8086"
+    restart: unless-stopped
+
+  bot7:
+    build: .
+    container_name: filesharebot-7
+    env_file: ./env/bot7.env
+    ports:
+      - "8087:8087"
+    restart: unless-stopped
+
+  bot8:
+    build: .
+    container_name: filesharebot-8
+    env_file: ./env/bot8.env
+    ports:
+      - "8088:8088"
+    restart: unless-stopped
+
+  bot9:
+    build: .
+    container_name: filesharebot-9
+    env_file: ./env/bot9.env
+    ports:
+      - "8089:8089"
+    restart: unless-stopped
+
+  bot10:
+    build: .
+    container_name: filesharebot-10
+    env_file: ./env/bot10.env
+    ports:
+      - "8090:8090"
+    restart: unless-stopped
